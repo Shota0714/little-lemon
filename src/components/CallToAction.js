@@ -7,7 +7,7 @@ const CallToAction = () => {
         <h1>Little Lemon</h1>
         <h2>Chicago</h2>
         <p>We are a family owned Mediterranean restaurant, focused on traditional recipes served with a modern twist.</p>
-        <button className="cta-button" onClick={() => window.location.href='/reservations'}>
+        <button className="cta-button" onClick={() => window.location.href='/booking'}>
           Reserve a Table
         </button>
       </div>

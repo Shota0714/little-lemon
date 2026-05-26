@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const BookingForm = ({ availableTimes, onSubmit }) => {
-  // 1. Local state managed for form fields
+const BookingForm = ({ availableTimes, onSubmit, onDateChange }) => {
   const [date, setDate] = useState('');
-  const [time, setTime] = useState(availableTimes[0] || '');
+  const [time, setTime] = useState('');
   const [guests, setGuests] = useState('1');
   const [occasion, setOccasion] = useState('None');
 
+  // Keep the current time selection valid when the times list shifts
+  useEffect(() => {
+    if (availableTimes.length > 0) {
+      setTime(availableTimes[0]);
+    }
+  }, [availableTimes]);
+
+  const handleDateChangeInternal = (e) => {
+    const newDate = e.target.value;
+    setDate(newDate);
+    onDateChange(newDate); // 💡 Triggers the API fetch reducer function on the parent page
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Pass the collected values back up to the parent page container
     onSubmit({ date, time, guests, occasion });
   };
 
@@ -20,7 +31,7 @@ const BookingForm = ({ availableTimes, onSubmit }) => {
         type="date" 
         id="res-date" 
         value={date} 
-        onChange={(e) => setDate(e.target.value)} 
+        onChange={handleDateChangeInternal} 
         required 
       />
 
