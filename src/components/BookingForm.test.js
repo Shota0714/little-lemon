@@ -43,5 +43,53 @@ describe('BookingForm Component', () => {
 
     expect(mockOnDateChange).toHaveBeenCalledTimes(1);
     expect(mockOnDateChange).toHaveBeenCalledWith('2026-10-31');
+  }); // <-- Closed this block cleanly
+
+  test('applies native HTML5 validation attributes to fields', () => {
+    render(
+      <BookingForm 
+        availableTimes={mockAvailableTimes} 
+        onSubmit={mockOnSubmit} 
+        onDateChange={mockOnDateChange} 
+      />
+    );
+
+    const dateInput = screen.getByLabelText(/Choose date/i);
+    const guestsInput = screen.getByLabelText(/Number of guests/i);
+
+    // HTML5 structural validation assertions
+    expect(dateInput).toBeRequired();
+    expect(guestsInput).toBeRequired();
+    expect(guestsInput).toHaveAttribute('min', '1');
+    expect(guestsInput).toHaveAttribute('max', '10');
+  });
+
+  test('disables submit button when validation state fails conditions', () => {
+    render(
+      <BookingForm 
+        availableTimes={mockAvailableTimes} 
+        onSubmit={mockOnSubmit} 
+        onDateChange={mockOnDateChange} 
+      />
+    );
+
+    const submitButton = screen.getByRole('button', { name: /Make Your Reservation/i });
+    const dateInput = screen.getByLabelText(/Choose date/i);
+    const guestsInput = screen.getByLabelText(/Number of guests/i);
+
+    // Initial state should be disabled because the date input is empty
+    expect(submitButton).toBeDisabled();
+
+    // Pick an invalid past date and an out-of-bounds guest count
+    fireEvent.change(dateInput, { target: { value: '2020-01-01' } });
+    fireEvent.change(guestsInput, { target: { value: '0' } });
+
+    expect(submitButton).toBeDisabled();
+
+    // Provide fully valid values -> button should activate cleanly
+    fireEvent.change(dateInput, { target: { value: '2026-12-25' } });
+    fireEvent.change(guestsInput, { target: { value: '4' } });
+
+    expect(submitButton).not.toBeDisabled();
   });
 });
