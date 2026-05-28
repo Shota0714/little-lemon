@@ -1,6 +1,5 @@
 import React from 'react';
 
-// Simulated data source
 const specialsData = [
   { id: 1, name: 'Greek Salad', price: '$12.99', description: 'The famous greek salad of crispy lettuce, onions, olives and our feta cheese.', img: '/assets/greek-salad.jpg' },
   { id: 2, name: 'Bruchetta', price: '$5.99', description: 'Our Bruschetta is made from grilled bread that has been smeared with garlic.', img: '/assets/bruschetta.jpg' },

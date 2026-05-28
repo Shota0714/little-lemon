@@ -3,19 +3,16 @@ import { initializeTimes, updateTimes } from './BookingPage';
 describe('BookingPage Reducer Utility Functions', () => {
   
   beforeEach(() => {
-    // Before each test run, create a fresh mock function on the window object
     window.fetchAPI = jest.fn(() => ['17:00', '18:00', '19:00']);
   });
 
   afterEach(() => {
-    // Clean up global window mutations
     delete window.fetchAPI;
   });
 
   test('initializeTimes successfully calls fetchAPI and returns a non-empty array', () => {
     const initialTimes = initializeTimes();
     
-    // Verify it handles global interaction safely
     expect(window.fetchAPI).toHaveBeenCalled();
     expect(initialTimes).toEqual(['17:00', '18:00', '19:00']);
     expect(initialTimes.length).toBeGreaterThan(0);

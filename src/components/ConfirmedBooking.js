@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Nav from './Nav';
 
 const ConfirmedBooking = () => {
   return (
     <div className="confirmation-page-container">
-      <Nav />
       <main className="booking-content" style={{ textAlign: 'center', marginTop: '60px' }}>
         <div className="confirmation-card" style={{ padding: '40px', backgroundColor: '#EDEFEE', borderRadius: '16px' }}>
           <h1 style={{ color: '#495E57', fontSize: '40px' }}>Booking Confirmed!</h1>
